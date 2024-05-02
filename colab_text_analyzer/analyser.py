@@ -1,7 +1,7 @@
-!pip install -q --upgrade google-generativeai langchain-google-genai python-dotenv
-!pip install langchain
-!pip install pypdf
-!pip install chromadb 
+#!pip install -q --upgrade google-generativeai langchain-google-genai python-dotenv
+#!pip install langchain
+#!pip install pypdf
+#!pip install chromadb 
 
 import os
 from IPython.display import display, Markdown
