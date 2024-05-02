@@ -1,20 +1,14 @@
-#!pip install -q --upgrade google-generativeai langchain-google-genai python-dotenv
-#!pip install langchain
-#!pip install pypdf
-#!pip install chromadb 
-
 import os
-from IPython.display import display, Markdown
+from dotenv import load_dotenv
 import textwrap
 import google.generativeai as genai
-from google.colab import userdata
-from dotenv import load_dotenv
 from langchain import PromptTemplate
 from langchain.chains.question_answering import load_qa_chain
 from langchain.document_loaders import PyPDFDirectoryLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Chroma
 from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
+from IPython.display import Markdown
 
 class ColabTextAnalyzer:
     def __init__(self, pdf_directory):
@@ -22,16 +16,8 @@ class ColabTextAnalyzer:
         self.genai_key = None
 
     def setup(self):
- #       !mkdir pdfs
- #       !cp *.pdf pdfs/.
         genai.configure(api_key=self.genai_key)
         load_dotenv()
-
-#    def install_dependencies(self):
-#        !pip install -q --upgrade google-generativeai langchain-google-genai python-dotenv
-#        !pip install langchain
-#        !pip install pypdf
-#        !pip install chromadb
 
     def load_documents(self):
         loader = PyPDFDirectoryLoader(self.pdf_directory)
@@ -70,17 +56,9 @@ class ColabTextAnalyzer:
         return Markdown(textwrap.indent(text, '>', predicate=lambda _: True))
 
     def run_all(self):
-        self.install_dependencies()
         self.setup()
         texts = self.load_documents()
         self.vector_index = self.create_embeddings(texts)
-        question = input("Ingrese su pregunta: ")
+        question = input("Enter your question: ")
         answer = self.analyze_question(question)
-        display(answer)
-
-# Uso de la clase
-#pdf_directory = "pdfs"  # Directorio donde se encuentran los archivos PDF
-#analyzer = ColabTextAnalyzer(pdf_directory)
-#analyzer.genai_key = "your_genai_key_here"  # Agrega tu clave API de GenerativeAI aquí
-#analyzer.run_all()
-
+        print(answer)
